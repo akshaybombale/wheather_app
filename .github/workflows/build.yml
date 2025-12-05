@@ -1,4 +1,4 @@
-name: Build and push to Docker hub
+name: Build and Deploy wheather app using Argocd.
 
 on:
   push:
@@ -6,8 +6,9 @@ on:
       - main
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
+    
 
     steps:
       - name: Checkout repository
@@ -56,6 +57,40 @@ jobs:
           name: version-tag
           path: version.txt
           run: echo "${{ env.VERSION_TAG }}" > version.txt    
+
+
+
+
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: [Build]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3 
+        
+      - name: Download version tag
+        uses: actions/download-artifact@v4
+        with:
+          name: version-tag
+
+      - name: Read version
+        run: echo "VERSION_TAG=$(cat version.txt)" >> $GITHUB_ENV
+
+      - name: Update K8S Manifest file
+        run: |
+          cat k8s_manifest_file/deployment.yaml
+          sed -i "s|image: akshayb412/wheatherapp:.*|image: akshayb412/wheatherapp:${{ env.VERSION_TAG }}|g" k8s_manifest_file/deployment.yaml
+          cat k8s_manifest_file/deployment.yaml
+
+      - name: push Manifest file and update image tag   
+        run: |
+            git config --global user.email "<akshaybombale70@gmail.com>"
+            git config --global user.name "GitHub Actions Bot" 
+            git add k8s_manifest_file/deployment.yaml
+            git commit -m "Update deploy.yaml with new image version - ${{ env.VERSION }}"
+            git remote set-url origin https://github-actions:${{ secrets.GITHUB_TOKEN }}@github.com/akshaybombale/wheather_app.git
+            git push origin main
 
     
  
