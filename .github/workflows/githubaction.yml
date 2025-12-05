@@ -1,0 +1,10 @@
+name: Automation using Github action for Wheatherapp Application.
+
+on: 
+push:
+    branches:
+        - main
+
+jobs:
+build:  
+                    
