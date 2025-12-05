@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wheatherapp-deployment
+spec:   
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wheatherapp
+  template:
+    metadata:
+      labels:
+        app: wheatherapp
+    spec:
+      containers:
+        - name: wheatherapp
+          image: akshayb412/wheatherapp:latest
+          ports:
+            - containerPort: 5000

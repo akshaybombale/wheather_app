@@ -41,10 +41,18 @@ jobs:
         run: | 
           echo "VERSION_TAG=$RANDOM" >> $GITHUB_ENV 
             
-      - name: Docker build
+      - name: Docker build and tag
         run: |
           docker build -t akshayb412/wheatherapp:${{ env.VERSION_TAG }} .
       
       - name: Push Docker image
         run: | 
           docker push akshayb412/wheatherapp:${{ env.VERSION_TAG }}
+
+      - name: update K8S Manifest file
+        run: |
+            sed -i "s|image: akshayb412/wheatherapp:*|image: akshayb412/wheatherapp:${{ env.VERSION_TAG }}|g" /k8s_manifest_file/deployment.yaml
+
+            
+
+
