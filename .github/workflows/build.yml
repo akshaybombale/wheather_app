@@ -51,7 +51,7 @@ jobs:
 
 
       - name: Upload version tag as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: version-tag
           path: version.txt
