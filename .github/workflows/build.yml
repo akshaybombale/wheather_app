@@ -40,7 +40,8 @@ jobs:
 
       - name: Generate random version tag
         run: | 
-          echo "VERSION_TAG=$RANDOM" >> $GITHUB_ENV 
+          echo "$RANDOM" > version.txt
+          echo "VERSION_TAG=$(cat version.txt)" >> $GITHUB_ENV
             
       - name: Docker build and tag
         run: |
@@ -68,7 +69,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3 
-        
+
       - name: Download version tag
         uses: actions/download-artifact@v4
         with:
