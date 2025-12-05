@@ -49,9 +49,11 @@ jobs:
         run: | 
           docker push akshayb412/wheatherapp:${{ env.VERSION_TAG }}
 
-      - name: update K8S Manifest file
+      - name: Update K8S Manifest file
         run: |
-            sed -i "s|image: akshayb412/wheatherapp:*|image: akshayb412/wheatherapp:${{ env.VERSION_TAG }}|g" /home/akshay/projects/GithubAction_ArgoCd_App/k8s_manifest_file/deployment.yaml
+          cat k8s_manifest_file/deployment.yaml
+          sed -i "s|image: akshayb412/wheatherapp:.*|image: akshayb412/wheatherapp:${{ env.VERSION_TAG }}|g" k8s_manifest_file/deployment.yaml
+          cat k8s_manifest_file/deployment.yaml
 
 
 
