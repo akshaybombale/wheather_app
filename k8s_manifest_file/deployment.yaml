@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: wheatherapp
-          image: akshayb412/wheatherapp:6033
+          image: akshayb412/wheatherapp:25878
           ports:
             - containerPort: 5000
