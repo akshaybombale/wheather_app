@@ -5,25 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
-        <h1>Weather App</h1>
-        <p>developed by Inderjeet Singh</p>
-        <form method="POST">
-            <input type="text" name="city" placeholder="Enter city name" required>
+        <h1 class="title">🌤️ Weather App</h1>
+        <p class="subtitle">Developed by Akshay Bombale</p>
+
+        <!-- Search Box -->
+        <form method="POST" class="form-box">
+            <input type="text" name="city" placeholder="🔍 Enter city name" required>
             <button type="submit">Get Weather</button>
         </form>
+
         {% if weather_data %}
-            <div class="weather-info">
+            <div class="weather-card">
                 {% if weather_data.error %}
-                    <p>{{ weather_data.error }}</p>
+                    <p class="error">{{ weather_data.error }}</p>
                 {% else %}
-                    <h2>{{ weather_data.name }}, {{ weather_data.sys.country }}</h2>
-                    <p>Temperature: {{ weather_data.main.temp }} °C</p>
-                    <p>Weather: {{ weather_data.weather[0].description }}</p>
-                    <p>Humidity: {{ weather_data.main.humidity }}%</p>
-                    <p>Wind Speed: {{ weather_data.wind.speed }} m/s</p>
+                    <h2 class="city-name">{{ weather_data.name }}, {{ weather_data.sys.country }}</h2>
+
+                    <div class="weather-details">
+                        <p>🌡️ Temperature: <span>{{ weather_data.main.temp }} °C</span></p>
+                        <p>⛅ Weather: <span>{{ weather_data.weather[0].description }}</span></p>
+                        <p>💧 Humidity: <span>{{ weather_data.main.humidity }}%</span></p>
+                        <p>🌬️ Wind Speed: <span>{{ weather_data.wind.speed }} m/s</span></p>
+                    </div>
                 {% endif %}
             </div>
         {% endif %}
